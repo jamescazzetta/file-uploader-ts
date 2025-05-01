@@ -1,6 +1,6 @@
 import React, { type ReactNode } from 'react';
 
-import commonClassNames from '../../lib/commonClassNames';
+import commonClassNames from '../lib/commonClassNames';
 
 export interface SectionHeaderProps {
     /**

@@ -1,6 +1,6 @@
+import { Truncate } from '../../shared/components/Truncate';
+import { VirtualList } from '../../shared/components/VirtualList';
 import transformBytesToKB from '../../shared/lib/helpers';
-import { Truncate } from '../../shared/ui/Truncate/Truncate';
-import { VirtualList } from '../../shared/ui/VirtualList/VirtualList';
 
 export interface FileItem {
     name: string;

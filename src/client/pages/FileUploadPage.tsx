@@ -1,8 +1,8 @@
 import { type ReactElement } from 'react';
 
-import { Page } from '../shared/ui/Page/Page';
-import { FileUpload } from '../widgets/FileUpload/FileUpload';
-import { UploadedFilesList } from '../widgets/UploadedFilesList/UploadedFilesList';
+import { FileUpload } from '../features/FileUpload/FileUpload';
+import { UploadedFilesList } from '../features/UploadedFilesList/UploadedFilesList';
+import { Page } from '../shared/components/Page';
 
 // @todo: use nicer panel and use spacing more thoughtfully
 export const FileUploadPage = (): ReactElement => {

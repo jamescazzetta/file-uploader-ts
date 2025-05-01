@@ -1,9 +1,9 @@
 import React from 'react';
 
-import FilesList from '../../components/FileList/FileList';
+import { Alert } from '../../shared/components/Alert';
 import { useEndpoint } from '../../shared/hooks/useEndpoint';
 import commonClassNames from '../../shared/lib/commonClassNames';
-import { Alert } from '../../shared/ui/Alert/Alert';
+import FilesList from '../../widgets/FileList/FileList';
 
 const MESSAGE_LOADING = 'Loading Files...';
 const DEFAULT_TITLE = 'Uploaded Files';

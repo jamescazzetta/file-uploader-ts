@@ -1,18 +1,22 @@
 import React, { useRef, useState } from 'react';
 
-import FilesList from '../../components/FileList/FileList';
+import { Alert } from '../../shared/components/Alert';
+import { SectionHeader } from '../../shared/components/SectionHeader';
 import classList from '../../shared/lib/classList';
-import { Alert } from '../../shared/ui/Alert/Alert';
-import { SectionHeader } from '../../shared/ui/SectionHeader/SectionHeader';
+import FilesList from '../../widgets/FileList/FileList';
+import { useFileUpload } from './model/useFileUpload';
 
 const DEFAULT_TITLE = 'File Uploader';
 const MESSAGE_CHOOSE_FILES = 'Choose files...';
 
-export interface FileUploadProps {
+export interface FileUploadUIProps {
     title?: string;
     accept?: string;
-    uploadUrl: string;
     multiple?: boolean;
+}
+
+export interface FileUploadProps extends FileUploadUIProps {
+    uploadUrl: string;
     onUploadComplete?: (files: File[]) => void;
 }
 
@@ -23,14 +27,15 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     title = DEFAULT_TITLE,
     onUploadComplete = () => {},
 }) => {
+    const { upload, uploading, error, clearError } = useFileUpload(uploadUrl);
     const inputRef = useRef<HTMLInputElement>(null);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-    const [uploading, setUploading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const uploadDisabled = uploading || selectedFiles.length === 0;
 
     // @todo: add support for drag-and-dropping files onto a dropzone,
     // and the visualizing respective active states, or use dropzone
+
+    // @todo: add support for large files -> chunked
 
     const pickFiles = () => {
         inputRef.current?.click();
@@ -39,7 +44,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setSelectedFiles(Array.from(e.target.files));
-            setError(null);
+            clearError();
         }
     };
 
@@ -47,33 +52,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         if (selectedFiles.length === 0) {
             return;
         }
-        setUploading(true);
-        setError(null);
-
         try {
-            // @todo: we might want to show per-file progress, cancel actions
-            await Promise.all(
-                selectedFiles.map((file) => {
-                    const form = new FormData();
-                    form.append('file', file);
-                    return fetch(uploadUrl, {
-                        method: 'POST',
-                        body: form,
-                    }).then((res) => {
-                        if (!res.ok) {
-                            // @todo: could be solved in a nicer way
-                            throw new Error(`Failed: ${file.name}`);
-                        }
-                    });
-                })
-            );
-
+            await upload(selectedFiles);
             onUploadComplete(selectedFiles);
             setSelectedFiles([]);
-        } catch (error) {
-            setError((error as Error).message);
-        } finally {
-            setUploading(false);
+          } catch {
+            /* do nothing */
         }
     };
 
@@ -123,7 +107,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                     }
                 }}
                 className={classList(
-                    'w-full flex-1 py-2 border rounded-md bg-gray-50',
+                    'w-full flex-1 p-2 rounded-md bg-gray-50',
                     'flex flex-col items-center justify-center transition-colors',
                     'cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500',
                     'hover:bg-gray-100'
