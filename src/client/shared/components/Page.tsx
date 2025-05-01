@@ -21,9 +21,7 @@ export const Page: React.FC<Page> = ({ title, children }) => {
     return (
         <div className={classList('mx-auto max-w-7xl text-center', commonClassNames.fullHeight)}>
             <h1 className={commonClassNames.h1}>{title}</h1>
-            <div className='border border-anthracite rounded-2xl bg-white'>
-                {children}
-            </div>
+            <div className="border border-anthracite rounded-2xl bg-white">{children}</div>
         </div>
     );
 };

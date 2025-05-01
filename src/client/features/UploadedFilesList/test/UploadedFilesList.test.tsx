@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
@@ -30,7 +31,6 @@ describe('UploadedFilesList', () => {
     it('renders uploaded files', async () => {
         render(<UploadedFilesList filesUrl="/api/files" />);
         await waitFor(() => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             expect(screen.getByText(/test.txt/i)).toBeInTheDocument();
         });
     });

@@ -4,6 +4,7 @@ import { Alert } from '../../shared/components/Alert';
 import { SectionHeader } from '../../shared/components/SectionHeader';
 import classList from '../../shared/lib/classList';
 import FilesList from '../../widgets/FileList/FileList';
+
 import { useFileUpload } from './model/useFileUpload';
 
 const DEFAULT_TITLE = 'File Uploader';
@@ -56,7 +57,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             await upload(selectedFiles);
             onUploadComplete(selectedFiles);
             setSelectedFiles([]);
-          } catch {
+        } catch {
             /* do nothing */
         }
     };

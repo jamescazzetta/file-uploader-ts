@@ -1,9 +1,8 @@
+import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, it, vi, expect, beforeEach } from 'vitest';
 
 import { FileUpload } from '../FileUpload';
-
-// @todo: fix `toBeInTheDocument` linting issues..
 
 const mockUploadUrl = '/api/upload-single';
 
@@ -17,7 +16,6 @@ describe('FileUpload', () => {
 
     it('renders with default title', () => {
         render(<FileUpload uploadUrl={mockUploadUrl} />);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         expect(screen.getByText(/file uploader/i)).toBeInTheDocument();
     });
 
@@ -55,9 +53,7 @@ describe('FileUpload', () => {
         fireEvent.click(uploadButton);
 
         await waitFor(() => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             expect(screen.getByRole('alert')).toBeInTheDocument();
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             expect(screen.getByText(/Upload failed for fail\.txt/)).toBeInTheDocument();
         });
     });
