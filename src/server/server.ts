@@ -13,6 +13,13 @@ type CustomRequest<T> = Request<unknown, unknown, T>;
 const UPLOAD_DIR = process.env.NODE_ENV !== 'test' ? 'uploads' : 'src/server/test/uploads';
 const CHUNK_DIR = process.env.NODE_ENV !== 'test' ? 'uploads-chunks' : 'src/server/test/uploads-chunks';
 
+// ensure both directories exist
+for (const dir of [UPLOAD_DIR, CHUNK_DIR]) {
+    if (!existsSync(dir)) {
+        mkdirSync(dir, { recursive: true });
+    }
+}
+
 export const app = express();
 
 const pipeline = promisify(stream.pipeline);
