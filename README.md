@@ -1,6 +1,3 @@
-# Task Boilerplate
-
-This is a simple boilerplate for the frontend task. You are free to use it and modify it to your needs.
 
 ## Installation
 
@@ -49,4 +46,4 @@ The boilerplate provides Tailwind CSS by default. If you want to use something e
 
 ## Testing
 
-Vitest is provided by default for testing, however you are free to use whatever you like and are familiar with.
+Vitest is provided by default for testing.
